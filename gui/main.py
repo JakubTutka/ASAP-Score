@@ -2,6 +2,11 @@ from tkinter import Label
 
 import kivy
 kivy.require("1.9.1")
+from kivy.config import Config
+Config.set('graphics', 'width', '515')
+Config.set('graphics', 'height', '750')
+Config.set('graphics', 'resizable', False)
+
 from connected import Connected
 
 from mysql_files.mysql_app import mysql_users
@@ -16,6 +21,7 @@ from kivy.lang import Builder
 from kivymd.app import MDApp
 from kivy.uix.screenmanager import Screen, SlideTransition
 
+
 class Screen1():
     pass
 class Screen2():
@@ -24,10 +30,12 @@ class ScreenManager():
     pass
 
 class MainApp(MDApp):
+
     def build(self):
         self.theme_cls.theme_style = "Dark"
         self.theme_cls.primary_palette = "BlueGray"
         return Builder.load_file('login.kv')
+
     def logger(self):
         self.root.ids.welcome_label.text = f'Witaj {self.root.ids.user.text}!'
 
@@ -45,6 +53,7 @@ class MainApp(MDApp):
 
     def register(self):
         mysql_users().register(username=self.root.ids.user_login_label.text, password=self.root.ids.rejestracja_password.text, email=self.root.ids.user_email_label.text)
+
 
 
 
