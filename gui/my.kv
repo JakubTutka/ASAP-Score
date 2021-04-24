@@ -1,0 +1,14 @@
+WindowManager:
+    MainWindow:
+    SecondWindow:
+
+<MainWindow>:
+    name: "main"
+
+
+<SecondWindow>:
+    name:"second"
+
+    Button:
+        text: "Go Back"
+        on_release: app.root.current = ""

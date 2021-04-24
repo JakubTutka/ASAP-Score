@@ -1,0 +1,201 @@
+#:import SlideTransition kivy.uix.screenmanager.SlideTransition
+#:import Factory kivy.factory.Factory
+ScreenManager:
+    id: screen_manager
+    Screen:
+        name: "screen1"
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: 'tlo.png'
+
+        MDCard:
+            size_hint: None, None
+            size: 400,500
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            elevation: 10
+            padding: 25
+            spacing: 25
+            orientation: 'vertical'
+
+            MDLabel:
+                id: title_label
+                text: "ASAP SCORE!"
+                color:'red'
+                font_size: 50
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+
+
+
+            MDLabel:
+                id: welcome_label
+                text: "Witaj!"
+                font_size: 40
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                padding_y: 15
+
+            MDTextFieldRound:
+                id: user
+                hint_text: "login"
+                icon_right: "account"
+                size_hint_x: None
+                width: 200
+                font_size: 18
+                pos_hint: {"center_x": 0.5}
+
+            MDTextFieldRound:
+                id: password
+                hint_text: "hasło"
+                icon_right: "eye-off"
+                size_hint_x: None
+                width: 200
+                font_size: 18
+                pos_hint: {"center_x": 0.5}
+                password: True
+
+            MDRoundFlatButton:
+                text:"Zaloguj"
+                font_size: 12
+                pos_hint: {"center_x": 0.5}
+                on_press:
+                    app.logger()
+                    app.root.transition = SlideTransition(direction='left')
+            MDRoundFlatButton:
+                text:"Wyczyść"
+                font_size: 12
+                pos_hint: {"center_x": 0.5}
+                on_press:
+                    app.clear()
+                    app.root.transition = SlideTransition(direction='left')
+            MDRoundFlatButton:
+                text:"Rejestracja"
+                font_size: 12
+                pos_hint: {"center_x": 0.5}
+                on_release:
+                    app.root.transition = SlideTransition(direction='left')
+                    screen_manager.current = "screen2"
+
+    Screen:
+        name: "screen2"
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: 'tlo.png'
+        MDCard:
+            size_hint: None, None
+            size: 350,500
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            elevation: 10
+            padding: 25
+            spacing: 25
+            orientation: 'vertical'
+
+            MDLabel:
+                id: rejestracja_label
+                text: "Rejestracja!"
+                font_size: 40
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                padding_y: 15
+
+            MDTextFieldRound:
+                id: user_login_label
+                hint_text: "login"
+                icon_right: "account-check"
+                size_hint_x: None
+                width: 250
+                font_size: 18
+                pos_hint: {"center_x": 0.5}
+
+            MDTextFieldRound:
+                id: user_email_label
+                hint_text: "email"
+                icon_right: "account"
+                size_hint_x: None
+                width: 250
+                font_size: 18
+                pos_hint: {"center_x": 0.5}
+
+            MDTextFieldRound:
+                id: rejestracja_password
+                hint_text: "hasło"
+                icon_right: "eye-off"
+                size_hint_x: None
+                width: 250
+                font_size: 18
+                pos_hint: {"center_x": 0.5}
+                password: True
+
+            MDTextFieldRound:
+                id: rejestracja_password_retype
+                hint_text: "powtórz hasło"
+                icon_right: "eye-off"
+                size_hint_x: None
+                width: 250
+                font_size: 18
+                pos_hint: {"center_x": 0.5}
+                password: True
+
+            MDRoundFlatButton:
+                text:"Utwórz konto!"
+                font_size: 12
+                pos_hint: {"center_x": 0.5}
+                on_release:
+                    app.root.transition = SlideTransition(direction='left')
+                    screen_manager.current = "screen3"
+                    app.register()
+
+
+            MDRoundFlatButton:
+                text:"Wyczyść dane!"
+                font_size: 12
+                pos_hint: {"center_x": 0.5}
+                on_press:
+                    app.clearRegistration()
+
+            MDRoundFlatButton:
+                text:"Cofnij"
+                font_size: 12
+                pos_hint: {"center_x": 0.5}
+                on_release:
+                    app.root.transition = SlideTransition(direction='right')
+                    screen_manager.current = "screen1"
+    Screen:
+        name: "screen3"
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: 'tlo.png'
+        MDCard:
+            size_hint: None, None
+            size: 350,500
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            elevation: 10
+            padding: 25
+            spacing: 25
+            orientation: 'vertical'
+
+            MDLabel:
+                id: poprawna_rejestracja
+                text: "Zarejestrowano pomyślnie!"
+                font_size: 40
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                padding_y: 15
+
+            MDRoundFlatButton:
+                text:"Cofnij do logowania!"
+                font_size: 12
+                pos_hint: {"center_x": 0.5}
+                on_release:
+                    app.root.transition = SlideTransition(direction='right')
+                    screen_manager.current = "screen1"
