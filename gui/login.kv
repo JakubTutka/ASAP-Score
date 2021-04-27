@@ -148,9 +148,10 @@ ScreenManager:
                 font_size: 12
                 pos_hint: {"center_x": 0.5}
                 on_release:
-                    app.root.transition = SlideTransition(direction='left')
-                    screen_manager.current = "screen3"
-                    app.register()
+                    app.validate()
+#                    app.root.transition = SlideTransition(direction='left')
+#                    screen_manager.current = "screen3"
+#                    app.register()
 
 
             MDRoundFlatButton:

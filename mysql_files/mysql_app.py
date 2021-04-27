@@ -29,6 +29,7 @@ class mysql_users:
         self.cursor.execute(register_query, user_data)
         self.connection.commit()
 
+
     def deleta_all_users(self):
 
         query = "TRUNCATE TABLE users;"
