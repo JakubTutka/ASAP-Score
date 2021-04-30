@@ -34,7 +34,7 @@ class ScreenManager():
     pass
 
 class MainApp(MDApp):
-
+    isException = None
     my_dialog = None
 
     def build(self):
@@ -64,29 +64,32 @@ class MainApp(MDApp):
         try:
             mysql_users().register(username=self.root.ids.user_login_label.text, password=self.root.ids.rejestracja_password.text, email=self.root.ids.user_email_label.text)
         except mysql.connector.IntegrityError as err:
-            print("złe dane!")
+            self.isException = True
+            self.show_dialog(error="ACCOUNT")
 
     def validate(self):
         is_password_correct = Validate().checkPassword(self.root.ids.rejestracja_password.text)
         is_email_correct = Validate().checkEmail(self.root.ids.user_email_label.text)
 
         if (self.is_fields_no_empty() & is_password_correct & is_email_correct & self.is_password_equals()):
-            self.root.transition = SlideTransition(direction='left')
-            self.root.current = "screen3"
             self.register()
+            if not self.isException:
+                self.root.transition.direction = 'left'
+                self.root.current = "screen3"
+                self.clearRegistration()
         else:
+            self.show_dialog(error="FIELDS")
+
+    def show_dialog(self, error):
+        if(error == "FIELDS"):
             my_dialog = MDDialog(text="Źle wprowadzone dane!")
             my_dialog.open()
 
-        # if (is_password_correct & is_email_correct & self.is_password_equals() & self.is_fields_no_empty()):
-        #     self.root.transition = SlideTransition(direction='left')
-        #     self.screen_manager.current = "screen3"
-        #     self.register()
-        # else:
-
+        elif (error == "ACCOUNT"):
+            my_dialog = MDDialog(text="Istnieje już użytkownik o jednym z wprowadzonych parametrów.")
+            my_dialog.open()
 
     def is_password_equals(self):
-
         if (self.root.ids.rejestracja_password.text == self.root.ids.rejestracja_password_retype.text):
             return True
         else:
