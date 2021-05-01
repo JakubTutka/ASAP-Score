@@ -26,11 +26,8 @@ from kivy.uix.screenmanager import Screen, SlideTransition
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
 
-class Screen1():
-    pass
-class Screen2():
-    pass
-class ScreenManager():
+
+class Connected(Widget):
     pass
 
 class MainApp(MDApp):
@@ -43,7 +40,20 @@ class MainApp(MDApp):
         return Builder.load_file('login.kv')
 
     def logger(self):
-        self.root.ids.welcome_label.text = f'Witaj {self.root.ids.user.text}!'
+        # self.root.ids.welcome_label.text = f'Witaj {self.root.ids.user.text}!'
+        username = self.root.ids.user.text
+        password = self.root.ids.password.text
+
+        if self.is_login_fields_no_empty() is False:
+            self.show_dialog(error="FIELDS")
+
+        elif mysql_users().is_user_exist(username) is False or mysql_users().is_password_correct(username=username, password=password) is False:
+            self.show_dialog(error="WRONG_INPUT")
+
+        elif(self.is_login_fields_no_empty() & mysql_users().is_user_exist(username=username) & mysql_users().is_password_correct(username=username, password=password)):
+            self.root.transition.direction = "left"
+            self.root.current = "connected_screen"
+
 
     def clear(self):
         self.root.ids.welcome_label.text = "Witaj!"
@@ -71,7 +81,7 @@ class MainApp(MDApp):
         is_password_correct = Validate().checkPassword(self.root.ids.rejestracja_password.text)
         is_email_correct = Validate().checkEmail(self.root.ids.user_email_label.text)
 
-        if (self.is_fields_no_empty() & is_password_correct & is_email_correct & self.is_password_equals()):
+        if (self.is_register_fields_no_empty() & is_password_correct & is_email_correct & self.is_password_equals()):
             self.register()
             if not self.isException:
                 self.root.transition.direction = 'left'
@@ -84,9 +94,11 @@ class MainApp(MDApp):
         if(error == "FIELDS"):
             my_dialog = MDDialog(text="Źle wprowadzone dane!")
             my_dialog.open()
-
         elif (error == "ACCOUNT"):
             my_dialog = MDDialog(text="Istnieje już użytkownik o jednym z wprowadzonych parametrów.")
+            my_dialog.open()
+        elif (error == "WRONG_INPUT"):
+            my_dialog = MDDialog(text="Wprowadzone dane są złe. Spróbuj ponownie.")
             my_dialog.open()
 
     def is_password_equals(self):
@@ -95,11 +107,16 @@ class MainApp(MDApp):
         else:
             return False
 
-    def is_fields_no_empty(self):
+    def is_register_fields_no_empty(self):
         if (bool(self.root.ids.user_login_label.text) & bool(self.root.ids.user_email_label.text) & bool(self.root.ids.rejestracja_password.text) & bool(self.root.ids.rejestracja_password_retype.text)):
             return True
         else:
             return False
 
+    def is_login_fields_no_empty(self):
+        if (bool(self.root.ids.user.text) & bool(self.root.ids.password.text)):
+            return True
+        else:
+            return False
 
 MainApp().run()

@@ -41,6 +41,7 @@ ScreenManager:
 
             MDTextFieldRound:
                 id: user
+                write_tab: False
                 hint_text: "login"
                 icon_right: "account"
                 size_hint_x: None
@@ -50,6 +51,7 @@ ScreenManager:
 
             MDTextFieldRound:
                 id: password
+                write_tab: False
                 hint_text: "hasło"
                 icon_right: "eye-off"
                 size_hint_x: None
@@ -204,3 +206,13 @@ ScreenManager:
                 on_release:
                     app.root.transition = SlideTransition(direction='right')
                     screen_manager.current = "screen1"
+
+    Screen:
+        name: 'connected_screen'
+        Connected:
+
+<Connected>:
+#Tu trzeba zrobic caly interfejs uzytkownika po zalogowaniu ;)
+    Label:
+        text: "dupa"
+        font_size: 32
