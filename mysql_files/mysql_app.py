@@ -7,7 +7,7 @@ class mysql_users:
 
         self.connection = mysql.connector.connect(
             user = "root",
-            password = "Mikolaj2017!@",
+            password = "root",
             host = '127.0.0.1',
             database = 'asap_score',
             auth_plugin = 'mysql_native_password'
