@@ -213,6 +213,150 @@ ScreenManager:
 
 <Connected>:
 #Tu trzeba zrobic caly interfejs uzytkownika po zalogowaniu ;)
-    Label:
-        text: "dupa"
-        font_size: 32
+    ScrollView:
+        do_scroll_x: False
+        do_scroll_y: True
+        MDList:
+            MDToolbar:
+                id: recent_matches
+                title: 'MECZYKI'
+                font_size: 50
+                halign: "right"
+                position: 'top'
+                left_action_items: [["menu", lambda x: app.callback()]]
+                md_bg_color: app.theme_cls.accent_color
+                right_action_items: [["dots-vertical", lambda x: app.callback(x), "Więcej akcji!"]]
+                #size_hint_y: None
+
+            MDTextFieldRound:
+                id: mecz1
+                text: 'MECZ 1'
+                #font_size: self.height
+                width: 200
+                #height: 100
+                halign: 'center'
+                #valign: 'top'
+                height: 50
+                pos_hint: {'center_x': 0.5, 'center_y': 0.1}
+
+            MDTextFieldRound:
+                id: mecz2
+                text: 'MECZ 2'
+                #font_size: self.height
+                width: 200
+                height: 50
+                pos_hint: {'center_x': 0.5, 'center_y': 0.1}
+                halign: 'center'
+            MDTextFieldRound:
+                id: mecz3
+                text: 'MECZ 3'
+                #font_size: self.height
+                width: 200
+                height: 50
+                pos_hint: {'center_x': 0.5, 'center_y': 0.1}
+                halign: 'center'
+            MDTextFieldRound:
+                id: mecz4
+                text: 'MECZ 4'
+                #font_size: self.height
+                width: 200
+                height: 50
+                pos_hint: {'center_x': 0.5, 'center_y': 0.1}
+                halign: 'center'
+            MDTextFieldRound:
+                id: mecz5
+                text: 'MECZ 5'
+                #font_size: self.height
+                width: 200
+                height: 50
+                pos_hint: {'center_x': 0.5, 'center_y': 0.1}
+                halign: 'center'
+            MDTextFieldRound:
+                id: mecz6
+                text: 'MECZ 6'
+                #font_size: self.height
+                width: 200
+                height: 50
+                pos_hint: {'center_x': 0.5, 'center_y': 0.1}
+                halign: 'center'
+            MDTextFieldRound:
+                id: mecz7
+                text: 'MECZ 7'
+                #font_size: self.height
+                width: 200
+                height: 50
+                pos_hint: {'center_x': 0.5, 'center_y': 0.1}
+                halign: 'center'
+            MDTextFieldRound:
+                id: mecz8
+                text: 'MECZ 8'
+                #font_size: self.height
+                width: 200
+                height: 50
+                pos_hint: {'center_x': 0.5, 'center_y': 0.1}
+                halign: 'center'
+            MDTextFieldRound:
+                id: mecz9
+                text: 'MECZ 9'
+                #font_size: self.height
+                width: 200
+                height: 50
+                pos_hint: {'center_x': 0.5, 'center_y': 0.1}
+                halign: 'center'
+            MDTextFieldRound:
+                id: mecz10
+                text: 'MECZ 10'
+                #font_size: self.height
+                width: 200
+                height: 50
+                pos_hint: {'center_x': 0.5, 'center_y': 0.1}
+                halign: 'center'
+            MDTextFieldRound:
+                id: mecz11
+                text: 'MECZ 11'
+                #font_size: self.height
+                width: 200
+                height: 50
+                pos_hint: {'center_x': 0.5, 'center_y': 0.1}
+                halign: 'center'
+            MDTextFieldRound:
+                id: mecz12
+                text: 'MECZ 12'
+                #font_size: self.height
+                width: 200
+                height: 50
+                pos_hint: {'center_x': 0.5, 'center_y': 0.1}
+                halign: 'center'
+            MDTextFieldRound:
+                id: mecz13
+                text: 'MECZ 13'
+                #font_size: self.height
+                width: 200
+                height: 50
+                pos_hint: {'center_x': 0.5, 'center_y': 0.1}
+                halign: 'center'
+            MDTextFieldRound:
+                id: mecz14
+                text: 'MECZ 14'
+                #font_size: self.height
+                width: 200
+                height: 50
+                pos_hint: {'center_x': 0.5, 'center_y': 0.1}
+                halign: 'center'
+            MDTextFieldRound:
+                id: mecz15
+                text: 'MECZ 15'
+                #font_size: self.height
+                width: 200
+                height: 50
+                pos_hint: {'center_x': 0.5, 'center_y': 0.1}
+                halign: 'center'
+            MDTextFieldRound:
+                id: mecz16
+                text: 'MECZ 16'
+                #font_size: self.height
+                width: 200
+                height: 50
+                pos_hint: {'center_x': 0.5, 'center_y': 0.1}
+                halign: 'center'
+

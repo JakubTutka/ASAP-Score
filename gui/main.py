@@ -15,6 +15,7 @@ from logic.validate_data import Validate
 from mysql_files.mysql_app import mysql_users
 from kivy.app import App
 from kivy.uix.widget import Widget
+from kivy.uix.scrollview import ScrollView
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.popup import Popup
