@@ -7,6 +7,7 @@ __pycache__/
 *.so
 
 # Distribution / packaging
+logic/chromedriver.exe
 .Python
 build/
 develop-eggs/
