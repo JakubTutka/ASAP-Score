@@ -8,6 +8,7 @@ __pycache__/
 
 # Distribution / packaging
 logic/chromedriver.exe
+gui/chromedriver.exe
 .Python
 build/
 develop-eggs/
