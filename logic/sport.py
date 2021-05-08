@@ -69,6 +69,7 @@ all_matches = driver.find_elements_by_class_name("event__match")
 
 all_matches_dict = []
 i = 0
+number = 1
 for match in all_matches:
     league = all_leagues[i]
     score_list = match.find_element_by_class_name("event__scores").text.split()
@@ -76,6 +77,7 @@ for match in all_matches:
     if is_live_match(match):
 
         match_items = {
+            '#': number,
             'league': league,
             'time': match.find_element_by_class_name('event__stage--block').text,
             'home_team': match.find_element_by_class_name('event__participant--home').text,
@@ -90,6 +92,7 @@ for match in all_matches:
     elif is_scheduled_match(match):
 
         match_items = {
+            '#': number,
             'league': league,
             'time': match.find_element_by_class_name('event__time').text,
             'home_team': match.find_element_by_class_name('event__participant--home').text,
@@ -102,6 +105,7 @@ for match in all_matches:
         all_matches_dict.append(match_items)
     else:
         match_items = {
+            '#': number,
             'league': league,
             'time': match.find_element_by_class_name('event__stage--block').text,
             'home_team': match.find_element_by_class_name('event__participant--home').text,
@@ -116,11 +120,11 @@ for match in all_matches:
     if is_last_match(match):
         i += 1
 
+    number += 1
 
 print(str(len(all_leagues)) + 'dupa')
 df = pd.DataFrame(all_matches_dict)
 df.to_excel(r'mecze.xlsx')
-
 driver.quit()
 
 

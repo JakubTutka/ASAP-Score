@@ -1,7 +1,7 @@
 import mysql.connector
 import hashlib
 
-class mysql_users:
+class MysqlUsers:
 
     def __init__(self):
 
