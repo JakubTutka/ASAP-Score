@@ -7,7 +7,7 @@ __pycache__/
 *.so
 
 # Distribution / packaging
-logic/chromedriver.exe
+gui/chromedriver.exe
 gui/chromedriver.exe
 .Python
 build/

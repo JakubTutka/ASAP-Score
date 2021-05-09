@@ -19,11 +19,19 @@ from kivy.uix.screenmanager import Screen
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.list import OneLineListItem
 from kivy.clock import Clock
+from kivy.uix.boxlayout import BoxLayout
+from kivy.properties import ObjectProperty, StringProperty
+
 
 class OneLineListItemAligned(OneLineListItem):
     def __init__(self, halign, **kwargs):
         super(OneLineListItemAligned, self).__init__(**kwargs)
         self.ids._lbl_primary.halign = halign
+
+class ContentNavigationDrawer(BoxLayout):
+    screen_manager2 = ObjectProperty()
+    nav_drawer = ObjectProperty()
+    toolbar = ObjectProperty()
 
 
 class ConnectedScreen(Screen):
@@ -35,13 +43,18 @@ class ConnectedScreen(Screen):
 
     def on_pre_enter(self, *args):
         scrap = FootballScrap()
-        scrap.create_data_frame(10)
+        if 0:
+            scrap.create_data_frame(10)
+        else:
+            scrap.df = pd.read_excel(r'mecze.xlsx')
+
         self.matches_list = scrap.matches_to_list()
         Clock.schedule_once(self.create_list)
 
     def create_list(self, *args):
         matches_list = self.matches_list
         print("jebać strajk kobiet (pozdrawiam Kamil)" + " " + str(len(matches_list)))
+        self.ids.list_of_matches.add_widget(OneLineListItemAligned(text=" #  |  KRAJ - LIGA  |  CZAS  |  GOSP.  |  WYNIK  | GOŚCIE  |  STAN", text_color=(255,0,0),on_release = self.show_match_dialog, halign='center'))
         for i in range(0, len(matches_list)):
             self.ids.list_of_matches.add_widget(OneLineListItemAligned(text=matches_list[i], on_release = self.show_match_dialog, halign='center'))
 
@@ -51,6 +64,7 @@ class ConnectedScreen(Screen):
 
 class MainApp(MDApp):
     isException = None
+
     my_dialog = None
 
     def build(self):

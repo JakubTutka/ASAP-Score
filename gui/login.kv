@@ -209,23 +209,79 @@ ScreenManager:
 
     ConnectedScreen:
 
+<ContentNavigationDrawer>:
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: '8dp'
+        padding: '8dp'
+
+        Image:
+            source: 'ball.png'
+
+        MDLabel:
+            text: 'ASAP Score!'
+            font_style: 'H5'
+            size_hint_y: None
+            height: self.texture_size[1]
+
+        ScrollView:
+            MDList:
+                OneLineIconListItem:
+                    text: "Wszystkie mecze"
+                    on_press:
+                        root.nav_drawer.set_state("close")
+                        root.screen_manager2.current = "football_matches"
+                        root.toolbar.title = "Piłka Nożna - mecze"
+                    IconLeftWidget:
+                        icon: 'arrow-right'
+
+                OneLineIconListItem:
+                    text: "Premier League - tabela"
+                    on_press:
+                        root.nav_drawer.set_state("close")
+                        root.screen_manager2.current = "premier_league"
+                        root.toolbar.title = "Anglia - Premier League"
+                    IconLeftWidget:
+                        icon: 'arrow-right'
 <ConnectedScreen>:
     size: root.width, root.height
     name: 'connected_screen'
     BoxLayout:
         orientation: 'vertical'
         MDToolbar:
-            id: recent_matches
-            title: 'MECZYKI'
+            id: toolbar
+            title: 'Piłka Nożna - mecze'
             font_size: 50
-            halign: "right"
-            position: 'top'
-            left_action_items: [["menu", lambda x: app.callback()]]
+            pos_hint: {"top": 1}
+            elevation: 10
+            left_action_items: [["menu", lambda x: nav_drawer.set_state("open")]]
             md_bg_color: app.theme_cls.accent_color
             right_action_items: [["dots-vertical", lambda x: app.callback(x), "Więcej akcji!"]]
             #size_hint_y: None
-        ScrollView:
-            do_scroll_x: False
-            do_scroll_y: True
-            MDList:
-                id: list_of_matches
+
+        MDNavigationLayout:
+
+            ScreenManager:
+                id: screen_manager2
+
+                Screen:
+                    name: "football_matches"
+                    ScrollView:
+                        do_scroll_x: False
+                        do_scroll_y: True
+                        MDList:
+                            id: list_of_matches
+                Screen:
+                    name: "premier_league"
+                    Label:
+                        text: "Premier League"
+
+            MDNavigationDrawer:
+                id: nav_drawer
+                ContentNavigationDrawer:
+                    screen_manager2: screen_manager2
+                    nav_drawer: nav_drawer
+                    toolbar: toolbar
+
+
+

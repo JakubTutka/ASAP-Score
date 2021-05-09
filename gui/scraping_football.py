@@ -11,16 +11,16 @@ class FootballScrap:
     all_matches = []
     df = None
 
+
     # def __init__(self):
     #     self.df = pd.read_excel('mecze.xlsx')
 
     def run_selenium(self):
-        self.options = webdriver.ChromeOptions();
-        self.options.add_argument('headless');
+        self.options = webdriver.ChromeOptions()
+        self.options.add_argument('headless')
         self.driver = webdriver.Chrome(options=self.options)
         self.driver.get(self.url)
         self.all_matches = self.driver.find_elements_by_class_name("event__match")
-
         headers = self.driver.find_elements_by_class_name('event__titleBox')
 
         for head in headers:
@@ -143,4 +143,5 @@ class FootballScrap:
 if __name__ == "__main__":
     scrap = FootballScrap()
     scrap.create_data_frame(50)
+    print(scrap.df)
     scrap.exit()
