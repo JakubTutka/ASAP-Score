@@ -9,7 +9,8 @@ Config.set('graphics', 'width', '500')
 Config.set('graphics', 'height', '800')
 Config.set('graphics', 'resizable', False)
 
-from gui.scraping_football import FootballScrap
+from scraping_football import FootballScrap
+from premier_league import PremierLeagueTable
 
 from logic.validate_data import Validate
 from mysql_files.mysql_app import MysqlUsers
@@ -21,7 +22,7 @@ from kivymd.uix.list import OneLineListItem
 from kivy.clock import Clock
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty, StringProperty
-
+from kivymd.uix.menu import MDDropdownMenu
 
 class OneLineListItemAligned(OneLineListItem):
     def __init__(self, halign, **kwargs):
@@ -37,26 +38,40 @@ class ContentNavigationDrawer(BoxLayout):
 class ConnectedScreen(Screen):
 
     matches_list = []
+    pl_table = []
     # def __init__(self, **kwargs):
     #     super().__init__(**kwargs)
     #     Clock.schedule_once(self.create_list)
 
     def on_pre_enter(self, *args):
         scrap = FootballScrap()
+        pl = PremierLeagueTable()
         if 0:
             scrap.create_data_frame(10)
         else:
             scrap.df = pd.read_excel(r'mecze.xlsx')
 
+        self.pl_table = pl.create_team_list()
         self.matches_list = scrap.matches_to_list()
         Clock.schedule_once(self.create_list)
 
+    def on_leave(self, *args):
+        self.ids.list_of_matches.clear_widgets()
+        self.ids.pl_table.clear_widgets()
+
     def create_list(self, *args):
+        pl_table = self.pl_table
         matches_list = self.matches_list
+
         print("jebać strajk kobiet (pozdrawiam Kamil)" + " " + str(len(matches_list)))
-        self.ids.list_of_matches.add_widget(OneLineListItemAligned(text=" #  |  KRAJ - LIGA  |  CZAS  |  GOSP.  |  WYNIK  | GOŚCIE  |  STAN", text_color=(255,0,0),on_release = self.show_match_dialog, halign='center'))
+        self.ids.list_of_matches.add_widget(OneLineListItemAligned(text=" #  |  KRAJ - LIGA  |  CZAS  |  GOSP.  |  WYNIK  | GOŚCIE  |  STAN", on_release = self.show_match_dialog, halign='center'))
+        self.ids.pl_table.add_widget(OneLineListItemAligned(text=" POZYCJA  |  DRUŻYNA  |  L.MECZY  |  W  |  R  |  P  |  PT  |  BR", on_release = self.show_match_dialog, halign='center'))
+
         for i in range(0, len(matches_list)):
             self.ids.list_of_matches.add_widget(OneLineListItemAligned(text=matches_list[i], on_release = self.show_match_dialog, halign='center'))
+
+        for i in range(0, len(pl_table)):
+            self.ids.pl_table.add_widget(OneLineListItemAligned(text=pl_table[i], on_release=self.show_match_dialog, halign='center'))
 
     def show_match_dialog(self, onelinelistitem):
         my_dialog = MDDialog(text=onelinelistitem.text)
@@ -64,14 +79,22 @@ class ConnectedScreen(Screen):
 
 class MainApp(MDApp):
     isException = None
-
     my_dialog = None
+
+    def on_start(self):
+        pass
+
 
     def build(self):
         self.theme_cls.theme_style = "Dark"
         self.theme_cls.primary_palette = "BlueGray"
 
         return Builder.load_file('login.kv')
+
+    def sign_out(self, text_of_the_option):
+        self.clear()
+        self.root.transition.direction = "left"
+        self.root.current = "screen1"
 
     def logger(self):
         # self.root.ids.welcome_label.text = f'Witaj {self.root.ids.user.text}!'
@@ -101,9 +124,6 @@ class MainApp(MDApp):
         self.root.ids.user_email_label.text = ""
         self.root.ids.rejestracja_password.text = ""
         self.root.ids.rejestracja_password_retype.text = ""
-
-    def show_integrity_error(self):
-        pass
 
     def register(self):
         try:

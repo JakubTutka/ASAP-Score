@@ -139,9 +139,9 @@ class FootballScrap:
         self.df = pd.DataFrame(self.all_matches_dict)
         self.df['score'] = self.df['score'].fillna("-")
         self.df.to_excel(r'mecze.xlsx')
+        self.exit()
 
 if __name__ == "__main__":
     scrap = FootballScrap()
     scrap.create_data_frame(50)
     print(scrap.df)
-    scrap.exit()

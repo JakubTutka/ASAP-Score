@@ -256,7 +256,7 @@ ScreenManager:
             elevation: 10
             left_action_items: [["menu", lambda x: nav_drawer.set_state("open")]]
             md_bg_color: app.theme_cls.accent_color
-            right_action_items: [["dots-vertical", lambda x: app.callback(x), "Więcej akcji!"]]
+            right_action_items: [["dots-vertical", lambda x: app.sign_out(x), "Wyloguj!"]]
             #size_hint_y: None
 
         MDNavigationLayout:
@@ -273,9 +273,11 @@ ScreenManager:
                             id: list_of_matches
                 Screen:
                     name: "premier_league"
-                    Label:
-                        text: "Premier League"
-
+                    ScrollView:
+                        do_scroll_x: False
+                        do_scroll_y: True
+                        MDList:
+                            id: pl_table
             MDNavigationDrawer:
                 id: nav_drawer
                 ContentNavigationDrawer:
