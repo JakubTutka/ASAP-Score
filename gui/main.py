@@ -39,15 +39,17 @@ class ConnectedScreen(Screen):
 
     matches_list = []
     pl_table = []
+    refresh_matches = False
     # def __init__(self, **kwargs):
     #     super().__init__(**kwargs)
     #     Clock.schedule_once(self.create_list)
 
     def on_pre_enter(self, *args):
+        print(self.refresh_matches)
         scrap = FootballScrap()
         pl = PremierLeagueTable()
-        if 0:
-            scrap.create_data_frame(10)
+        if self.refresh_matches:
+            scrap.create_data_frame(50)
         else:
             scrap.df = pd.read_excel(r'mecze.xlsx')
 
@@ -63,7 +65,6 @@ class ConnectedScreen(Screen):
         pl_table = self.pl_table
         matches_list = self.matches_list
 
-        print("jebać strajk kobiet (pozdrawiam Kamil)" + " " + str(len(matches_list)))
         self.ids.list_of_matches.add_widget(OneLineListItemAligned(text=" #  |  KRAJ - LIGA  |  CZAS  |  GOSP.  |  WYNIK  | GOŚCIE  |  STAN", on_release = self.show_match_dialog, halign='center'))
         self.ids.pl_table.add_widget(OneLineListItemAligned(text=" POZYCJA  |  DRUŻYNA  |  L.MECZY  |  W  |  R  |  P  |  PT  |  BR", on_release = self.show_match_dialog, halign='center'))
 
@@ -80,10 +81,6 @@ class ConnectedScreen(Screen):
 class MainApp(MDApp):
     isException = None
     my_dialog = None
-
-    def on_start(self):
-        pass
-
 
     def build(self):
         self.theme_cls.theme_style = "Dark"
@@ -110,6 +107,9 @@ class MainApp(MDApp):
 
         elif self.is_login_fields_no_empty() & MysqlUsers().is_user_exist(
                 username=username) & MysqlUsers().is_password_correct(username=username, password=password):
+            if self.root.ids.refresh.active:
+                print("dupa dziala bardziej")
+                self.root.screens[3].refresh_matches = True
             self.root.transition.direction = "left"
             self.root.current = "connected_screen"
 

@@ -37,7 +37,7 @@ ScreenManager:
                 halign: 'center'
                 size_hint_y: None
                 height: self.texture_size[1]
-                padding_y: 15
+                padding_y: 10
 
             MDTextFieldRound:
                 id: user
@@ -81,6 +81,16 @@ ScreenManager:
                 on_release:
                     app.root.transition = SlideTransition(direction='left')
                     screen_manager.current = "screen2"
+
+            MDLabel:
+                text: "Czy chcesz odświeżyć mecze?"
+                font_size: 16
+                size_hint_y: None
+                height: self.texture_size[1]
+
+            MDSwitch:
+                id: refresh
+                width: dp(64)
 
     Screen:
         name: "screen2"
@@ -183,7 +193,7 @@ ScreenManager:
                 source: 'tlo.png'
         MDCard:
             size_hint: None, None
-            size: 350,500
+            size: 200,600
             pos_hint: {"center_x": 0.5, "center_y": 0.5}
             elevation: 10
             padding: 25
