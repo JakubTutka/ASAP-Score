@@ -4,11 +4,11 @@ ScreenManager:
     id: screen_manager
     Screen:
         name: "screen1"
-        canvas.before:
-            Rectangle:
-                pos: self.pos
-                size: self.size
-                source: 'tlo.png'
+#        canvas.before:
+#            Rectangle:
+#                pos: self.pos
+#                size: self.size
+#                source: 'tlo.png'
 
         MDCard:
             size_hint: None, None
@@ -185,12 +185,12 @@ ScreenManager:
                     app.root.transition = SlideTransition(direction='right')
                     screen_manager.current = "screen1"
     Screen:
-        name: "screen3"
-        canvas.before:
-            Rectangle:
-                pos: self.pos
-                size: self.size
-                source: 'tlo.png'
+#        name: "screen3"
+#        canvas.before:
+#            Rectangle:
+#                pos: self.pos
+#                size: self.size
+#                source: 'tlo.png'
         MDCard:
             size_hint: None, None
             size: 200,600
@@ -253,6 +253,52 @@ ScreenManager:
                         root.toolbar.title = "Anglia - Premier League"
                     IconLeftWidget:
                         icon: 'arrow-right'
+
+                OneLineIconListItem:
+                    text: "LaLiga - tabela"
+                    on_press:
+                        root.nav_drawer.set_state("close")
+                        root.screen_manager2.current = "laliga"
+                        root.toolbar.title = "Hiszpania - La Liga"
+                    IconLeftWidget:
+                        icon: 'arrow-right'
+
+                OneLineIconListItem:
+                    text: "Serie A - tabela"
+                    on_press:
+                        root.nav_drawer.set_state("close")
+                        root.screen_manager2.current = "seriea"
+                        root.toolbar.title = "Włochy - Serie A"
+                    IconLeftWidget:
+                        icon: 'arrow-right'
+
+                OneLineIconListItem:
+                    text: "Bundesliga - tabela"
+                    on_press:
+                        root.nav_drawer.set_state("close")
+                        root.screen_manager2.current = "bundesliga"
+                        root.toolbar.title = "Niemcy - Bundesliga"
+                    IconLeftWidget:
+                        icon: 'arrow-right'
+
+                OneLineIconListItem:
+                    text: "Ligue1 - tabela"
+                    on_press:
+                        root.nav_drawer.set_state("close")
+                        root.screen_manager2.current = "ligue1"
+                        root.toolbar.title = "Francja - Ligue1"
+                    IconLeftWidget:
+                        icon: 'arrow-right'
+
+                OneLineIconListItem:
+                    text: "Ekstraklasa - tabela"
+                    on_press:
+                        root.nav_drawer.set_state("close")
+                        root.screen_manager2.current = "ekstraklasa"
+                        root.toolbar.title = "Polska - Ekstraklasa"
+                    IconLeftWidget:
+                        icon: 'arrow-right'
+
 <ConnectedScreen>:
     size: root.width, root.height
     name: 'connected_screen'
@@ -288,6 +334,41 @@ ScreenManager:
                         do_scroll_y: True
                         MDList:
                             id: pl_table
+                Screen:
+                    name: "laliga"
+                    ScrollView:
+                        do_scroll_x: False
+                        do_scroll_y: True
+                        MDList:
+                            id: laliga_table
+                Screen:
+                    name: "seriea"
+                    ScrollView:
+                        do_scroll_x: False
+                        do_scroll_y: True
+                        MDList:
+                            id: seriea_table
+                Screen:
+                    name: "bundesliga"
+                    ScrollView:
+                        do_scroll_x: False
+                        do_scroll_y: True
+                        MDList:
+                            id: bundesliga_table
+                Screen:
+                    name: "ligue1"
+                    ScrollView:
+                        do_scroll_x: False
+                        do_scroll_y: True
+                        MDList:
+                            id: ligue1_table
+                Screen:
+                    name: "ekstraklasa"
+                    ScrollView:
+                        do_scroll_x: False
+                        do_scroll_y: True
+                        MDList:
+                            id: ekstraklasa_table
             MDNavigationDrawer:
                 id: nav_drawer
                 ContentNavigationDrawer:

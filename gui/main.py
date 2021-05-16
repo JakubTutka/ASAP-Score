@@ -10,7 +10,7 @@ Config.set('graphics', 'height', '800')
 Config.set('graphics', 'resizable', False)
 
 from scraping_football import FootballScrap
-from premier_league import PremierLeagueTable
+from tables import Table
 
 from logic.validate_data import Validate
 from mysql_files.mysql_app import MysqlUsers
@@ -39,6 +39,11 @@ class ConnectedScreen(Screen):
 
     matches_list = []
     pl_table = []
+    bundesliga_table = []
+    ligue1_table = []
+    seriea_table = []
+    laliga_table = []
+    ekstraklasa_table = []
     refresh_matches = False
     # def __init__(self, **kwargs):
     #     super().__init__(**kwargs)
@@ -47,32 +52,66 @@ class ConnectedScreen(Screen):
     def on_pre_enter(self, *args):
         print(self.refresh_matches)
         scrap = FootballScrap()
-        pl = PremierLeagueTable()
+        t = Table()
         if self.refresh_matches:
             scrap.create_data_frame(50)
         else:
             scrap.df = pd.read_excel(r'mecze.xlsx')
 
-        self.pl_table = pl.create_team_list()
+        self.pl_table = t.create_team_list("https://www.flashscore.com/football/england/premier-league/")
+        self.laliga_table = t.create_team_list("https://www.flashscore.com/football/spain/laliga/")
+        self.seriea_table = t.create_team_list("https://www.flashscore.com/football/italy/serie-a/")
+        self.bundesliga_table = t.create_team_list("https://www.flashscore.com/football/germany/bundesliga/")
+        self.ligue1_table = t.create_team_list("https://www.flashscore.com/football/france/ligue-1/")
+        self.ekstraklasa_table = t.create_team_list("https://www.flashscore.com/football/poland/ekstraklasa/")
+
+        t.exit()
         self.matches_list = scrap.matches_to_list()
         Clock.schedule_once(self.create_list)
 
     def on_leave(self, *args):
+        self.refresh_matches = False
         self.ids.list_of_matches.clear_widgets()
         self.ids.pl_table.clear_widgets()
+        self.ids.laliga_table.clear_widgets()
+        self.ids.seriea_table.clear_widgets()
+        self.ids.bundesliga_table.clear_widgets()
+        self.ids.ligue1_table.clear_widgets()
+        self.ids.ekstraklasa_table.clear_widgets()
 
     def create_list(self, *args):
         pl_table = self.pl_table
+        laliga_table = self.laliga_table
+        seriea_table = self.seriea_table
+        bundesliga_table = self.bundesliga_table
+        ligue1_table = self.ligue1_table
+        ekstraklasa_table = self.ekstraklasa_table
         matches_list = self.matches_list
 
         self.ids.list_of_matches.add_widget(OneLineListItemAligned(text=" #  |  KRAJ - LIGA  |  CZAS  |  GOSP.  |  WYNIK  | GOŚCIE  |  STAN", on_release = self.show_match_dialog, halign='center'))
         self.ids.pl_table.add_widget(OneLineListItemAligned(text=" POZYCJA  |  DRUŻYNA  |  L.MECZY  |  W  |  R  |  P  |  PT  |  BR", on_release = self.show_match_dialog, halign='center'))
+        self.ids.laliga_table.add_widget(OneLineListItemAligned(text=" POZYCJA  |  DRUŻYNA  |  L.MECZY  |  W  |  R  |  P  |  PT  |  BR", on_release = self.show_match_dialog, halign='center'))
+        self.ids.seriea_table.add_widget(OneLineListItemAligned(text=" POZYCJA  |  DRUŻYNA  |  L.MECZY  |  W  |  R  |  P  |  PT  |  BR", on_release = self.show_match_dialog, halign='center'))
+        self.ids.bundesliga_table.add_widget(OneLineListItemAligned(text=" POZYCJA  |  DRUŻYNA  |  L.MECZY  |  W  |  R  |  P  |  PT  |  BR", on_release = self.show_match_dialog, halign='center'))
+        self.ids.ligue1_table.add_widget(OneLineListItemAligned(text=" POZYCJA  |  DRUŻYNA  |  L.MECZY  |  W  |  R  |  P  |  PT  |  BR", on_release = self.show_match_dialog, halign='center'))
+        self.ids.ekstraklasa_table.add_widget(OneLineListItemAligned(text=" POZYCJA  |  DRUŻYNA  |  L.MECZY  |  W  |  R  |  P  |  PT  |  BR", on_release = self.show_match_dialog, halign='center'))
+
 
         for i in range(0, len(matches_list)):
             self.ids.list_of_matches.add_widget(OneLineListItemAligned(text=matches_list[i], on_release = self.show_match_dialog, halign='center'))
 
         for i in range(0, len(pl_table)):
             self.ids.pl_table.add_widget(OneLineListItemAligned(text=pl_table[i], on_release=self.show_match_dialog, halign='center'))
+        for i in range(0, len(laliga_table)):
+            self.ids.laliga_table.add_widget(OneLineListItemAligned(text=laliga_table[i], on_release=self.show_match_dialog, halign='center'))
+        for i in range(0, len(seriea_table)):
+            self.ids.seriea_table.add_widget(OneLineListItemAligned(text=seriea_table[i], on_release=self.show_match_dialog, halign='center'))
+        for i in range(0, len(bundesliga_table)):
+            self.ids.bundesliga_table.add_widget(OneLineListItemAligned(text=bundesliga_table[i], on_release=self.show_match_dialog, halign='center'))
+        for i in range(0, len(ligue1_table)):
+            self.ids.ligue1_table.add_widget(OneLineListItemAligned(text=ligue1_table[i], on_release=self.show_match_dialog, halign='center'))
+        for i in range(0, len(ekstraklasa_table)):
+            self.ids.ekstraklasa_table.add_widget(OneLineListItemAligned(text=ekstraklasa_table[i], on_release=self.show_match_dialog, halign='center'))
 
     def show_match_dialog(self, onelinelistitem):
         my_dialog = MDDialog(text=onelinelistitem.text)

@@ -1,24 +1,25 @@
 import pandas as pd
 from selenium import webdriver
 
-class PremierLeagueTable:
 
-    url = "https://www.flashscore.com/football/england/premier-league/"
+class Table:
     options = None
     driver = None
+
+    def __init__(self):
+        self.run_selenium()
 
     def run_selenium(self):
         self.options = webdriver.ChromeOptions()
         self.options.add_argument('headless')
         self.driver = webdriver.Chrome(options=self.options)
-        self.driver.get(self.url)
 
     def exit(self):
         print("Turning down selenium..")
         self.driver.quit()
 
-    def create_team_list(self):
-        self.run_selenium()
+    def create_team_list(self, url):
+        self.driver.get(url)
 
         all_teams = self.driver.find_elements_by_class_name("row___1rtP1QI")
         all_teams_list = []
@@ -35,10 +36,10 @@ class PremierLeagueTable:
             all_teams_list.append(full_name)
             i += 1
 
-        self.exit()
         return all_teams_list
 
+
 if __name__ == "__main__":
-    pl = PremierLeagueTable()
-    table = pl.create_team_list()
+    t = Table()
+    table = t.create_team_list("https://www.flashscore.com/football/germany/bundesliga/")
     print(table)
